@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>✦ A Special Gift ✦</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:'Dancing Script',cursive;
+  background:
+    radial-gradient(circle at 20% 30%, #ff2f92 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, #7b2cff 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, #1b0033 0%, #05000a 70%);
+  background-size:200% 200%;
+  animation:bgMove 12s ease-in-out infinite;
+  overflow:hidden;
+  color:#ffd9f0;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 0%}
+  50%{background-position:100% 100%}
+  100%{background-position:0% 0%}
+}
+
+section{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:40px;
+}
+
+.card{
+  background:rgba(20,0,40,.85);
+  padding:55px;
+  border-radius:45px;
+  max-width:650px;
+  box-shadow:0 0 80px rgba(255,60,170,.6);
+  animation:fadeUp 1.3s ease;
+}
+
+h1{
+  font-family:'Great Vibes',cursive;
+  font-size:48px;
+  margin-bottom:25px;
+}
+
+p{
+  font-size:24px;
+  line-height:2;
+}
+
+button{
+  margin-top:35px;
+  padding:16px 55px;
+  border:none;
+  border-radius:60px;
+  background:linear-gradient(135deg,#ff2f92,#9b4dff);
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+  box-shadow:0 15px 40px rgba(0,0,0,.6);
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(40px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* gift box */
+#gift{
+  width:70vmin;
+  height:50vmin;
+  background:linear-gradient(135deg,#ff4da6,#7b2cff);
+  border-radius:35px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 150px rgba(255,80,200,1);
+  cursor:pointer;
+  transition:.25s;
+}
+
+#gift::before,#gift::after{
+  content:"";
+  position:absolute;
+  background:linear-gradient(135deg,#ffd9f0,#ff4da6);
+}
+
+#gift::before{
+  width:16%;
+  height:100%;
+  left:42%;
+}
+
+#gift::after{
+  height:16%;
+  width:100%;
+  top:42%;
+}
+
+/* messages */
+.msg{
+  position:absolute;
+  width:360px;
+  background:rgba(30,0,50,.92);
+  border-radius:40px;
+  padding:30px;
+  box-shadow:0 0 90px rgba(255,80,200,.7);
+  opacity:0;
+  transform:scale(.4) rotate(-6deg);
+  transition:
+    opacity 1.5s,
+    transform .35s cubic-bezier(.22,1,.36,1);
+  cursor:grab;
+  touch-action:none;
+}
+
+.msg.show{
+  opacity:1;
+  transform:scale(1) rotate(0);
+}
+
+.msg.dragging{
+  transition:none;
+  cursor:grabbing;
+  box-shadow:0 0 160px rgba(255,120,220,1);
+  z-index:9999;
+}
+
+.avatar{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:#ff4da6;
+  margin:auto;
+  margin-bottom:15px;
+}
+
+.name{
+  font-size:20px;
+  margin-bottom:12px;
+}
+
+.text{
+  font-size:24px;
+  line-height:2;
+}
+
+.heart{
+  text-align:center;
+  font-size:28px;
+  margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<section class="step">
+  <div class="card">
+    <h1>Hi…</h1>
+    <p>This page was made just for you.</p>
+    <button onclick="next()">Enter ✦</button>
+  </div>
+</section>
+
+<section class="step" style="display:none">
+  <div class="card">
+    <h1>Why this page?</h1>
+    <p>Because today is not just a date.<br>And you are not just anyone.</p>
+    <button onclick="next()">Continue ✦</button>
+  </div>
+</section>
+
+<section class="step" style="display:none">
+  <div class="card">
+    <h1>You are…</h1>
+    <p>Kind ✧ Special ✧ Loved ✧ Enough</p>
+    <button onclick="next()">One more ✦</button>
+  </div>
+</section>
+
+<section class="step" style="display:none">
+  <div class="card">
+    <h1>A Gift Awaits</h1>
+    <p>I have something for you.</p>
+    <button onclick="next()">Open ✦</button>
+  </div>
+</section>
+
+<div id="gift" style="display:none"></div>
+
+<script>
+let i=0;
+const steps=document.querySelectorAll(".step");
+const gift=document.getElementById("gift");
+
+function next(){
+  steps[i].style.display="none";
+  i++;
+  if(i<steps.length){
+    steps[i].style.display="flex";
+  }else{
+    gift.style.display="block";
+  }
+}
+
+let clicks=0;
+gift.onclick=()=>{
+  clicks++;
+  gift.style.transform=
+    `translate(-50%,-50%) translate(${Math.random()*140-70}px,${Math.random()*140-70}px) rotate(${Math.random()*30-15}deg)`;
+  if(clicks===3){
+    gift.remove();
+    release();
+  }
+};
+
+function release(){
+  const texts=[
+    "May this year be softer to your heart",
+    "You deserve calm love",
+    "Never doubt your light",
+    "Your smile fixes days",
+    "You matter. Always.",
+    "This world is kinder with you",
+    "You are enough",
+    "Keep being you",
+    "Happy Birthday"
+  ];
+
+  texts.forEach((t,idx)=>{
+    const m=document.createElement("div");
+    m.className="msg";
+    m.style.left="50%";
+    m.style.top="50%";
+    m.innerHTML=`
+      <div class="avatar"></div>
+      <div class="name">✦ From Hamza ✦</div>
+      <div class="text">${t}</div>
+      <div class="heart">✧ 🤍 ✧</div>
+    `;
+    document.body.appendChild(m);
+
+    setTimeout(()=>{
+      m.classList.add("show");
+      m.style.left=Math.random()*80+"%";
+      m.style.top=Math.random()*80+"%";
+    },200*idx);
+  });
+}
+
+/* smooth drag */
+let active=null,startX=0,startY=0;
+
+document.addEventListener("pointerdown",e=>{
+  const m=e.target.closest(".msg");
+  if(!m)return;
+  active=m;
+  active.classList.add("dragging");
+  startX=e.clientX-active.offsetLeft;
+  startY=e.clientY-active.offsetTop;
+  active.setPointerCapture(e.pointerId);
+});
+
+document.addEventListener("pointermove",e=>{
+  if(!active)return;
+  active.style.left=e.clientX-startX+"px";
+  active.style.top=e.clientY-startY+"px";
+  active.style.transform="scale(1.05) rotate(2deg)";
+});
+
+document.addEventListener("pointerup",()=>{
+  if(!active)return;
+  active.classList.remove("dragging");
+  active.style.transform="scale(1) rotate(0)";
+  active=null;
+});
+</script>
+
+</body>
+</html>
