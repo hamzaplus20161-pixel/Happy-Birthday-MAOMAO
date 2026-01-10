@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>✦ A Special Gift ✦</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:'Dancing Script',cursive;
+  background:
+    radial-gradient(circle at 20% 20%, #ff2f92 0%, transparent 45%),
+    radial-gradient(circle at 80% 80%, #7b2cff 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, #140022 0%, #05000a 75%);
+  background-size:200% 200%;
+  animation:bgMove 15s ease-in-out infinite;
+  overflow:hidden;
+  color:#ffd9f0;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 0%}
+  50%{background-position:100% 100%}
+  100%{background-position:0% 0%}
+}
+
+/* ===== SECTIONS ===== */
+section{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:30px;
+  opacity:0;
+  transform:translateY(40px);
+  pointer-events:none;
+  transition:1s cubic-bezier(.22,1,.36,1);
+}
+
+section.active{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+
+.card{
+  background:rgba(25,0,45,.92);
+  padding:50px;
+  border-radius:45px;
+  max-width:650px;
+  box-shadow:0 0 100px rgba(255,80,200,.8);
+}
+
+h1{
+  font-family:'Great Vibes',cursive;
+  font-size:46px;
+}
+
+p{font-size:22px;line-height:2}
+
+button{
+  margin-top:30px;
+  padding:16px 50px;
+  border:none;
+  border-radius:60px;
+  background:linear-gradient(135deg,#ff2f92,#9b4dff);
+  color:white;
+  font-size:20px;
+  cursor:pointer;
+}
+
+/* ===== GIFT ===== */
+#gift{
+  width:80vmin;
+  height:55vmin;
+  background:linear-gradient(135deg,#ff4da6,#7b2cff);
+  border-radius:40px;
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 200px rgba(255,120,230,1);
+  cursor:pointer;
+  animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%,100%{transform:translate(-50%,-50%)}
+  50%{transform:translate(-50%,-57%)}
+}
+
+#gift::before,#gift::after{
+  content:"";
+  position:absolute;
+  background:linear-gradient(135deg,#ffd9f0,#ff4da6);
+}
+
+#gift::before{width:15%;height:100%;left:42.5%}
+#gift::after{height:15%;width:100%;top:42.5%}
+
+.shake1{animation:shakeSoft .6s}
+.shake2{animation:shakeHard .7s}
+.explode{animation:explode 1s forwards}
+
+@keyframes shakeSoft{
+  0%{transform:translate(-50%,-50%) rotate(0)}
+  25%{transform:translate(-50%,-50%) rotate(4deg)}
+  50%{transform:translate(-50%,-50%) rotate(-4deg)}
+  100%{transform:translate(-50%,-50%) rotate(0)}
+}
+
+@keyframes shakeHard{
+  0%{transform:translate(-50%,-50%) rotate(0)}
+  20%{transform:translate(-47%,-53%) rotate(8deg)}
+  40%{transform:translate(-53%,-47%) rotate(-8deg)}
+  60%{transform:translate(-48%,-52%) rotate(6deg)}
+  100%{transform:translate(-50%,-50%) rotate(0)}
+}
+
+@keyframes explode{
+  to{transform:translate(-50%,-70%) scale(1.4);opacity:0}
+}
+
+/* ===== MESSAGES ===== */
+.msg{
+  position:absolute;
+  width:90%;
+  max-width:380px;
+  background:rgba(35,0,60,.95);
+  border-radius:40px;
+  padding:28px;
+  box-shadow:0 0 120px rgba(255,80,200,.9);
+  opacity:0;
+  transition:1.4s cubic-bezier(.22,1,.36,1);
+  cursor:grab;
+  touch-action:none;
+}
+
+.msg.show{opacity:1}
+
+.msg.dragging{
+  transition:none;
+  cursor:grabbing;
+  z-index:9999;
+}
+
+.name{
+  font-family:'Great Vibes',cursive;
+  font-size:24px;
+  margin-bottom:10px;
+}
+
+.text{font-size:20px;line-height:2}
+.heart{text-align:center;font-size:26px;margin-top:10px}
+</style>
+</head>
+
+<body>
+
+<section class="step active">
+  <div class="card">
+    <h1>Hello…</h1>
+    <p>This page was made just for you.</p>
+    <button onclick="next()">Enter ✦</button>
+  </div>
+</section>
+
+<section class="step">
+  <div class="card">
+    <h1>A Special Day</h1>
+    <p>You are not just a date.</p>
+    <button onclick="next()">Continue ✦</button>
+  </div>
+</section>
+
+<section class="step">
+  <div class="card">
+    <h1>A Gift Awaits</h1>
+    <p>Tap the gift three times 🎁</p>
+    <button onclick="next()">Open ✦</button>
+  </div>
+</section>
+
+<div id="gift" style="display:none"></div>
+
+<script>
+let i=0,clicks=0;
+const steps=document.querySelectorAll(".step");
+const gift=document.getElementById("gift");
+
+function next(){
+  steps[i].classList.remove("active");
+  i++;
+  if(i<steps.length){
+    steps[i].classList.add("active");
+  }else{
+    gift.style.display="block";
+  }
+}
+
+gift.onclick=()=>{
+  clicks++;
+  gift.classList.remove("shake1","shake2","explode");
+  void gift.offsetWidth;
+  if(clicks===1) gift.classList.add("shake1");
+  if(clicks===2) gift.classList.add("shake2");
+  if(clicks===3){
+    gift.classList.add("explode");
+    setTimeout(()=>{gift.remove();release();},900);
+  }
+};
+
+function release(){
+  const messages=[
+    {from:"Thorfin",text:"Happy Birthday MaoMao 🌸 May your days be lighter, brighter, and full of laughter. May you reach happiness without exhaustion. Your presence truly makes a difference."},
+    {from:"Shinobu",text:"My dear MaoMao, my quiet little sister. I hope you are healthy, happy, and enjoying life. Wishing you peace and growth."},
+    {from:"Song",text:"Happy Birthday 🎉 May your days be filled with beautiful moments and dreams slowly coming true."},
+    {from:"Kushina",text:"Happy Birthday my sister 💞 Wishing you health, joy, and endless happiness."},
+    {from:"Khaisu",text:"Happy Birthday my best friend 💗 May we always grow and laugh together."},
+    {from:"Chrollo",text:"Happy Birthday MaoMao 💖 May this year be full of success and achievements."}
+  ];
+
+  messages.forEach((m,idx)=>{
+    const el=document.createElement("div");
+    el.className="msg";
+    el.style.left="5%";
+    el.style.top=(5+idx*14)+"%";
+    el.innerHTML=`<div class="name">✦ ${m.from} ✦</div><div class="text">${m.text}</div><div class="heart">✧ 🤍 ✧</div>`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.classList.add("show"),200*idx);
+  });
+}
+
+/* DRAG */
+let active=null,ox=0,oy=0;
+document.addEventListener("pointerdown",e=>{
+  const m=e.target.closest(".msg");
+  if(!m)return;
+  active=m;
+  ox=e.clientX-m.offsetLeft;
+  oy=e.clientY-m.offsetTop;
+  m.classList.add("dragging");
+  m.setPointerCapture(e.pointerId);
+});
+document.addEventListener("pointermove",e=>{
+  if(!active)return;
+  active.style.left=e.clientX-ox+"px";
+  active.style.top=e.clientY-oy+"px";
+});
+document.addEventListener("pointerup",()=>{
+  if(!active)return;
+  active.classList.remove("dragging");
+  active=null;
+});
+</script>
+
+</body>
+</html>
